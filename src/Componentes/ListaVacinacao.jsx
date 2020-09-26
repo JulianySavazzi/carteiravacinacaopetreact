@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Container, Row, Table, Button } from 'react-bootstrap';
+import { Container, Row, Button, Table } from 'react-bootstrap';
 import VacinacaoServices from '../Servicos/VacinacaoServices';
 
 class ListaVacinacao extends Component {
 
-    //construtor
+    //constructor
     constructor(props) {
         super(props);
         this.state = {
@@ -17,14 +17,16 @@ class ListaVacinacao extends Component {
         this.excluir = this.excluir.bind(this);
     }
 
-    componentDidMount() {
-        this.getVacinacoes();
+    //methods
+
+    componentDidMount(){
+        this.getVacinacao();
     }
 
-    getVacinacoes(){
+    getVacinacao(){
         VacinacaoServices.getVacinacao().then(
-            (resposta) => this.setState(
-                {vacinacao:resposta.data}
+            (res) => this.setState(
+                {vacinacao:res.data}
             )
         )
     }
@@ -34,7 +36,7 @@ class ListaVacinacao extends Component {
     }
 
     novaVacinacao(){
-        this.props.history.push("/vacinacao/_add")
+        this.props.history.push("/vacinacao/_add");
     }
 
     editar(id){
@@ -45,18 +47,16 @@ class ListaVacinacao extends Component {
         VacinacaoServices.deleteVacinacao(id).then(
             res => {
                 alert(res.data);
-                this.getVacinacoes();
+                this.getVacinacao();
             }
-        )    
+        )
     }
 
     render() {
         return (
             <Container>
                 <Row>
-                    <h1>
-                        Carteira de Vacinação
-                    </h1>
+                    <h2>Carteira de Vacinação</h2>
                 </Row>
                 <Row>
                     <Button variant="link" onClick={this.voltar} >voltar</Button>
@@ -66,26 +66,26 @@ class ListaVacinacao extends Component {
                         <thead>
                             <tr>
                                 <th>
-                                    Nome do animal
+                                    Nome animal
                                 </th>
                                 <th>
-                                    Data de nascimento
+                                    Data nascimento animal
                                 </th>
                                 <th>
-                                    Vacina
+                                    Nome vacina
                                 </th>
                                 <th>
-                                    Tipo
+                                    Tipo vacina
                                 </th>
                                 <th>
-                                    Quantidade de doses á tomar
+                                    Quantidade de doses
                                 </th>
                                 <th>
                                     Data vacinação
                                 </th>
-                                <th>
+                                {/* <th>
                                     Data próxima vacinação
-                                </th>
+                                </th> */}
                                 <th>
                                     Ações
                                 </th>
@@ -114,23 +114,22 @@ class ListaVacinacao extends Component {
                                             <td>
                                                 {vacinacao.data_vacinacao}
                                             </td>
-                                            <td>
+                                            {/* <td>
                                                 {vacinacao.data_proxima_vacinacao}
-                                            </td>
-                                            <td>                                                   
-                                                    <Button variant="primary" onClick={() => this.editar(vacinacao.id_vacinacao)} >Editar</Button>                                               
-                                                    <Button variant="danger" onClick={() => this.excluir(vacinacao.id_vacinacao)} >Excluir</Button>                                                                                               
+                                            </td> */}
+                                            <td>
+                                                <Button variant="primary" onClick={() => this.editar(vacinacao.id_vacinacao)} >Editar</Button>
+                                                <Button variant="danger" onClick={() => this.excluir(vacinacao.id_vacinacao)} >Excluir</Button>
                                             </td>
                                         </tr>
                                     )
                                 )
                             }
-
                         </tbody>
                     </Table>
-                </Row>                
+                </Row>
                 <Row className="float-right">                    
-                    <Button variant="success" onClick={this.novaVacinacao} >Nova vacinação</Button>                    
+                    <Button variant="success" onClick={this.novaVacinacao} >Adicionar vacinação</Button>                    
                 </Row>
                 <Row className="float-left">
                     <Button variant="link" onClick={this.voltar} >voltar</Button>
